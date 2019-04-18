@@ -90,3 +90,4 @@ DAML SDK documentation
    support/release-notes
    Roadmap <support/roadmap>
 
+   wip/index

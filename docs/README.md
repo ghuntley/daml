@@ -9,7 +9,7 @@ The docs are written in [reStructuredText](http://docutils.sourceforge.net/rst.h
 To edit documentation:
 
 - Same as code: find the file, edit it on a branch, make a PR.
-- For new files, best to copy existing ones, to get the formatting right. 
+- For new files, best to copy existing ones, to get the formatting right.
 
   Don't forget you need to add your file to the `toctree` in `/docs/source/index.rst` *and* `/docs/configs/pdf/index.rst`.
 - **Make sure you preview** before you push.
@@ -23,6 +23,32 @@ Not all of our docs are in rst files: some get generated. They are:
 - the Java bindings reference
 
 To edit those docs, edit the content inside the code source.
+
+### Work-In-Progress Documentation
+
+For documentation tasks that require significant time to create, you can use
+the following approach to commit work-in-progress docs on `master`.
+
+- place your sources files into a sub-directory `source-wip` directory and
+  link them from the TOC in `wip/index.rst`
+- add the line `wip/index` at the bottom of `source/index.rst`. 
+- run the live preview script as explained below
+- navigate to your docs from the TOC
+
+Notes:
+- Sadly, live preview only seems to detect changes in files linked from the
+  master document, which is why the second step is required.
+  Please make sure to not commit the change to `source/index.rst`. If you do
+  nevertheless, CI will catch the problem, as the `source-wip` files are not
+  available during a CI build.
+- if you add a new sub-directory to the `source-wip` directory, you need to
+  restart the live preview to have that sub-directory included in the
+  documentation generation -- the symlinks need to be recreated.
+- only sub-directories are supported in `source-wip`, not files. The HTML
+  template we use seems to use the URL to determine whether to show an
+  overview page or not.
+- the whole process is a bit messy and generates some extra symlinks in the source directory; improvements welcome.
+
 
 ### Previewing
 
@@ -53,7 +79,7 @@ If you’re not familiar, it’s really worth reading the [primer](http://www.sp
   ^^^^^^
   """"""
   ```
-- For internal links, use the `doc` directive where you can. 
+- For internal links, use the `doc` directive where you can.
 - For bullet points (unordered lists), use `-` (dashes).
 - For code blocks, use the `literalinclude` directive if you can: it's best to source code from files that we test whether they compile.
 
