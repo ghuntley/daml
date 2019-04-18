@@ -1,7 +1,7 @@
 .. _integration-kit:
 
-DAML Integration Kit
-####################
+DAML Integration Kit - PRE-ALPHA
+################################
 
 The DAML Integration Kit allows third-party ledger developers to
 implement a DAML Ledger on top of their distributed-ledger or database of
@@ -24,23 +24,77 @@ choice and reuse our DAML Ledger server and DAML interpreter code for
 implementing the DAML Ledger API.
 
 
+.. _integration-kit_status-and_roadmap:
+
 Status and Roadmap
 ******************
 
-Documentation
+The current status of the integration kit is PRE-ALPHA. We expect it to evolve
+to ALPHA soon, BETA later, and GA quite a bit later. The roadmap below
+explains what we mean by these different statuses, and what's missing to
+progress.
 
-- explain versioning
-- explain validation
-- reference example project
-- reporting issues
-- scaladocs
+PRE-ALPHA (current status)
+  We develop the DAML Integration Kit in an open-first model. The PRE-ALPHA
+  status means that there is enough information for interested third-parties
+  to follow the *development* of the DAML integration kit. **We do though not
+  make any stability guarantees!** Moreover the documentation is expected to
+  contain holes, which are usually linked to GitHub issues.
 
-Contents
+ALPHA (tracking GitHub issue)
+  Once we reach ALPHA status, the DAML Integration Kit is ready to be used by
+  courageous third-parties. If you are one of these pioneers, then we are glad
+  to have you on-board, provided your are OK with the following caveats:
 
-- What is the DLIK?
-- What is its current state?
-- How is the DLIK going to evolve?
-- What DAML-on-X ledgers are there?
+  - The architecture includes everything required to run DAML Applications in
+    production. However, it misses support for testing DAML Applications in a
+    uniform way against different DAML Ledgers. Concretely this means that
+    Ledger API authorization, package upload, party onboarding, ledger reset,
+    and time manipulation are specific to each DAML Ledger. The reason
+    for this is that it requires us to design uniform *adminstrative DAML ledger access*,
+    which is different from the uniform *per-party DAML ledger access* that the
+    DAML Ledger API provides. We will address this before reaching BETA
+    status.
+  - The architecture is likely to change due to learnings from pioneers like
+    you! Where possible we strive to make these changes backwards compatible.
+    This might though not always be possible.
+  - The documentation might be spotty in some places, and you might have to
+    infer some of the documentation from the code.
+  - Some of our code might be fresh off the press and might therefore have a
+    higher rate of bugs.
+  - We do not yet provide
+
+  That said: we highly value your feedback and input to direct our attention
+  to where it provides the most value!
+
+  Below is the list of known missing work to reach ALPHA status. You can
+  watch this GitHub issue to track our progress towards completing it.
+
+  - Complete the **TODO** items in this documentation.
+  - Release the artifacts referenced in this documentation jointly with the
+    DAML SDK.
+  - Create self-contained DAML integration example in the
+    `digital-asset/daml-on-x-example
+    <https://github.com/digital-asset/daml-on-x-example>`_ GitHub repository.
+
+
+BETA (tracking GitHub issue)
+  For us BETA status, means that we have architectural stability and solid
+  documentation in place. At this point, third-parties should have everything
+  they need to integrate DAML with their ledger of choice.
+
+  Before reaching BETA status, we expect to have
+  - hardened our test tooling,
+  - built tooling for benchmarking DAML ledgers,
+  - completed several integrations of DAML for different ledgers, and
+  - implemented uniform *administrative DAML ledger access* to provide a
+    portable way for testing DAML applications against different DAML ledgers.
+
+GA (GitHub issue)
+  For us GA (General Availability) means that there are several
+  production-ready DAML ledgers built using the DAML integration kit.
+
+
 
 
 .. _integration-kit_implementing:
