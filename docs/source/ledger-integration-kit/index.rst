@@ -1,9 +1,9 @@
-.. _ledger-integration-kit:
+.. _integration-kit:
 
-DAML Ledger Integration Kit
-###########################
+DAML Integration Kit
+####################
 
-The DAML Ledger Integration Kit allows third-party ledger developers to
+The DAML Integration Kit allows third-party ledger developers to
 implement a DAML Ledger on top of their distributed-ledger or database of
 choice. How does that work?
 
@@ -15,10 +15,10 @@ Theoretically, you could
 implement such a server from scratch following the above documentation.
 Practically, we though strongly recommend to use our integration kit and follow
 the guides below for
-:ref:`implementing <ledger-integration-kit_implementing>`,
-:ref:`deploying <ledger-integration-kit_deploying>`,
-:ref:`testing <ledger-integration-kit_testing>`, and
-:ref:`benchmarking <ledger-integration-kit_benchmarking>` your own DAML Ledger
+:ref:`implementing <integration-kit_implementing>`,
+:ref:`deploying <integration-kit_deploying>`,
+:ref:`testing <integration-kit_testing>`, and
+:ref:`benchmarking <integration-kit_benchmarking>` your own DAML Ledger
 server. This way you can focus on your distributed-ledger or database of
 choice and reuse our DAML Ledger server and DAML interpreter code for
 implementing the DAML Ledger API.
@@ -34,8 +34,15 @@ Documentation
 - reporting issues
 - scaladocs
 
+Contents
 
-.. _ledger-integration-kit_implementing:
+- What is the DLIK?
+- What is its current state?
+- How is the DLIK going to evolve?
+- What DAML-on-X ledgers are there?
+
+
+.. _integration-kit_implementing:
 
 Implementing your own DAML Ledger
 *********************************
@@ -76,13 +83,80 @@ Message Flow
 **TODO: explain how a transaction gets committed against an abstract ledger**
 
 
-Infrastructure Overview
-=======================
+Implementing your server and validator
+======================================
 
-Each `X` ledger requires the implementation of a specific
-`daml-on-<X>-server`.  As explained above, it might further require the
-implementation of a `<X>-daml-validator`. We provide four Scala libraries
-for these implementation tasks:
+Each `X` ledger requires at least the implementation of a specific
+`daml-on-<X>-server`. It might also require the implementation of a
+`<X>-daml-validator` as explained above. We provide two kinds of code to
+simplify their implementation.
+
+1. We provide Scala libraries for validating DAML transactions and serving the
+   Ledger API given implementations of two specific interfaces. See
+   :ref:`below <integration-kit_library_overview>` for an overview of these
+   libraries.
+
+2. We provide the `digital-asset/daml-on-x-example <https://github.com/digital-asset/daml-on-x-example>`_ GitHub repository,
+   which contains a complete example of a DAML Ledger backed by an in-memory
+   key-value store. It builds on our Scala libraries and demonstrates how they
+   can be assembled to serve the Ledger API and validate DAML transactions.
+
+   For ledgers where data is shared between all participant nodes, we
+   recommend using this example as a starting point for implementing your
+   server and validator. For ledgers with stronger privacy models, this example
+   can serve as an inspiration. You will need to dive deeper into how
+   transactions are represented and how to communicate them to
+   implement :doc:`DAML's privacy model </concepts/ledger-model/ledger-privacy>`
+   at the ledger level instead of just at the Ledger API level.
+
+
+Getting Started
+---------------
+
+Implementing your own server and validator requires three things: learning the
+necessary context, deciding on an architecture, and writing their code.
+
+There is a lot of context required for this implementation task. We recommend
+the following steps to gain this context.
+
+1. Complete the :doc:`/getting-started/quickstart`.
+2. Get an in-depth understanding of the :doc:`/concepts/ledger-model/index`.
+3. Build a mental model of how the :doc:`/app-dev/ledger-api-introduction/index`
+   is used to build DAML Applications.
+
+.. _integration-kit_writing_code:
+
+Writing the Code
+----------------
+
+Once you've completed the above steps, we recommend following these steps to
+implement your own server and validator.
+
+1. Clone our example DAML Ledger backed by an in-memory key-value store from
+   the `digital-asset/daml-on-x-example <https://github.com/digital-asset/daml-on-x-example>`_.
+
+   **TODO: create this example repository**
+
+2. Read the example code jointly with the :ref:`integration-kit_library_overview`
+   given below.
+3. Combine all the knowledge gained to decide on the architecture for your
+   DAML on `X` ledger.
+4. Implement your architecture; and let the world know about it.
+
+Use the feedback form on this documentation page or GitHub issues on the
+`digital-asset/daml <https://github.com/digital-asset/daml>`_ repository to
+get into contact with us. Questions and feedback welcome!
+
+
+.. _integration-kit_library_overview:
+
+Library Infrastructure Overview
+-------------------------------
+
+We provide the following four Scala libraries to help you implement your
+server and validator. As explained in :ref:`_integration-kit_writing_code`,
+this guide is best read jointly with the code of our `example ledger
+<https://github.com/digital-asset/daml-on-x-example>`_.
 
 ``participant-state.jar`` (`source code <https://github.com/digital-asset/daml/blob/master/ledger/participant-state/src/main/scala/com/daml/ledger/participant/state/v1/package.scala>`_)
   contains interfaces abstracting over the state of
@@ -105,8 +179,6 @@ for these implementation tasks:
   transactions and for validating them. An `<X>-daml-validator` is typically
   implemented by wrapping this code in the `X`-ledger's SDK for building
   transaction validators.
-
-**TODO: explain how to access these libraries.**
 
 The following diagram shows how the classes and interfaces provided by these
 libraries are typically combined to instantiate a DAML Ledger API server
@@ -165,43 +237,20 @@ of their qualified names where unambiguous.
   logging and the port at which the Ledger API is served.
 
 
-
-
-Setting up your project
-=======================
-
-TODO: copy from Java Bindings Maven setup
-
-
-Writing the code
-================
-
-TODO:
-
-
-.. _ledger-integration-kit_deploying:
+.. _integration-kit_deploying:
 
 Deploying a DAML Ledger
 ***********************
 
-.. _ledger-integration-kit_testing:
+.. _integration-kit_testing:
 
 Testing a DAML Ledger
 *********************
 
 
 
-.. _ledger-integration-kit_benchmarking:
+.. _integration-kit_benchmarking:
 
 Benchmarking a DAML Ledger
 **************************
 
-
-
-
-
-
-* What is the DLIK?
-* What is its current state?
-* How is the DLIK going to evolve?
-* What DAML-on-X ledgers are there?
