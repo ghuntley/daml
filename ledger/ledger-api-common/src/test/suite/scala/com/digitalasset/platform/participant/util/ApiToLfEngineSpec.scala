@@ -3,7 +3,7 @@
 
 package com.digitalasset.platform.participant.util
 
-import com.digitalasset.daml.lf.data.{ImmArray, Ref, SortedLookupList}
+import com.digitalasset.daml.lf.data.{ImmArray, Ref, SortedLookupList, Decimal}
 import com.digitalasset.daml.lf.lfpackage.Ast
 import com.digitalasset.daml.lf.value.Value.{ValueInt64, ValueMap, ValueRecord}
 import com.digitalasset.ledger.api.domain.Value._
@@ -151,13 +151,13 @@ class ApiToLfEngineSpec extends WordSpec with Matchers {
     }
 
     "handle Decimals exceeding scale correctly" in {
-      ApiToLfEngine.parseDecimal("0.0000000001") shouldBe Right(BigDecimal("0.0000000001"))
-      ApiToLfEngine.parseDecimal("0.00000000005") shouldBe 'left
+      Decimal.fromString("0.0000000001") shouldBe Right(BigDecimal("0.0000000001"))
+      Decimal.fromString("0.00000000005") shouldBe 'left
     }
 
     "handle Decimals exceeding bounds" in {
-      ApiToLfEngine.parseDecimal("10000000000000000000000000000.0000000000") shouldBe 'left
-      ApiToLfEngine.parseDecimal("-10000000000000000000000000000.0000000000") shouldBe 'left
+      Decimal.fromString("10000000000000000000000000000.0000000000") shouldBe 'left
+      Decimal.fromString("-10000000000000000000000000000.0000000000") shouldBe 'left
     }
   }
 }

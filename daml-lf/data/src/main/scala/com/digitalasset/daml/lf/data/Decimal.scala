@@ -72,14 +72,14 @@ object Decimal {
             .setScale(scale))
     })
 
+  private val hasExpectedFormat: String => Boolean =
+    """[+-]?\d{1,28}(\.\d{1,10})?""".r.pattern.matcher(_).matches()
+
   def fromString(s: String): Either[String, Decimal] =
-    // parse with infinite precision, then check
-    try {
+    if (hasExpectedFormat(s))
       checkWithinBoundsAndWithinScale(unlimitedBigDecimal(s))
-    } catch {
-      case err: NumberFormatException =>
-        Left(s"Could not read Decimal string: $err")
-    }
+    else
+      Left(s"""Could not read Decimal string "$s" """)
 
   def toString(d: Decimal): String = {
     // Strip the trailing zeros (which BigDecimal keeps if the string

@@ -711,7 +711,7 @@ abstract class CommandTransactionChecks
             templateIds.decimalRounding,
             Record(fields = List(RecordField(value = Some(alice.asParty)), RecordField(value = Some("0.00000000005".asDecimal)))),
             Code.INVALID_ARGUMENT,
-            "out-of-bounds Decimal"
+            "Could not read Decimal string"
           )
           _ <- failingCreate(
             ctx,
@@ -720,7 +720,7 @@ abstract class CommandTransactionChecks
             templateIds.decimalRounding,
             Record(fields = List(RecordField(value = Some(alice.asParty)), RecordField(value = Some("10000000000000000000000000000.0000000000".asDecimal)))),
             Code.INVALID_ARGUMENT,
-            "out-of-bounds Decimal"
+            "Could not read Decimal string"
           )
           _ <- failingCreate(
             ctx,
@@ -729,7 +729,7 @@ abstract class CommandTransactionChecks
             templateIds.decimalRounding,
             Record(fields = List(RecordField(value = Some(alice.asParty)), RecordField(value = Some("-10000000000000000000000000000.0000000000".asDecimal)))),
             Code.INVALID_ARGUMENT,
-            "out-of-bounds Decimal"
+            "Could not read Decimal string"
           )
         } yield {
           succeed
