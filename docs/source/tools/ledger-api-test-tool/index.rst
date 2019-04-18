@@ -18,7 +18,12 @@ Ledger Model </concepts/ledger-model/index>`.
 Downloading the tool
 ====================
 
-TODO
+Run the following command to fetch the tool:
+
+.. code-block:: shell
+    curl -L "https://digitalassetsdk.bintray.com/DigitalAssetSDK/com/daml/ledger/testtool/ledger-api-test-tool_2.12/100.12.7/ledger-api-test-tool_2.12-100.12.7.jar" -o ledger-api-test-tool.jar
+
+This will create a file ``ledger-api-test-tool.jar`` in your current directory.
 
 Extracting :code:`.dar` file required to run the tests
 ======================================================
@@ -28,7 +33,7 @@ specific set of DAML templates onto your ledger.
 
 #. Obtain the corresponding :code:`.dar` file with:
 
-   ``ledger-api-test-tool -x``
+   ``java -jar ledger-api-test-tool.jar  -x``
 
 #. Load the file :code:`SemanticTests.dar` created in the current directory into your
    Ledger.
@@ -39,11 +44,11 @@ Running the tool against a custom Ledger API endpoint
 Run this command to test your Ledger API endpoint exposed at host :code:`<host>` and
 at a port :code:`<port>`:
 
-    ``ledger-api-test-tool -h <host> -p <port>``
+    ``java -jar ledger-api-test-tool.jar  -h <host> -p <port>``
 
 For example
 
-    ``ledger-api-test-tool -h localhost -p 6865``
+    ``java -jar ledger-api-test-tool.jar  -h localhost -p 6865``
 
 Exploring options the tool provides
 ===================================
@@ -52,7 +57,7 @@ Run the tool with :code:`--help` flag to obtain the list of options the tool pro
 
    .. code-block:: console
 
-     $ ledger-api-test-tool --help
+     $ java -jar ledger-api-test-tool.jar  --help
 
      The Ledger API Test Tool is a command line tool for testing the correctness of
      ledger implementations based on DAML and Ledger API.
@@ -74,9 +79,9 @@ Sandbox](https://docs.daml.com/tools/sandbox.html), run:
 
    .. code-block:: console
 
-     ledger-api-test-tool -x
+     java -jar ledger-api-test-tool.jar  -x
      da sandbox -- SemanticTests.dar
-     ledger-api-test-tool
+     java -jar ledger-api-test-tool.jar 
 
 This should always succeed! This is useful if you do not have yet a custom
 Ledger API endpoint.
@@ -93,7 +98,7 @@ To test your ledger in your CI pipelines, execute it as part of your pipeline:
 
    .. code-block:: console
 
-     $ ledger-api-test-tool
+     $ java -jar ledger-api-test-tool.jar 
      Running 10 scenarios against localhost:6865...
      Testing scenario: Test:timeTravel
      Testing scenario: Test:authorization_rule1_failure
@@ -117,7 +122,7 @@ Using the tool with a known-to-be-faulty Ledger API implementation
 
 To force the tool to always return success exit code, use :code:`--must-fail` flag:
 
-    ``ledger-api-test-tool --must-fail -h localhost -p 6865``
+    ``java -jar ledger-api-test-tool.jar  --must-fail -h localhost -p 6865``
 
 This is useful during development of a DAML Ledger implementation, when tool
 needs to be used against a known-to-be-faulty implementation (e.g. in CI).
