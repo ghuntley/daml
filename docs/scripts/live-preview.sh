@@ -18,7 +18,6 @@ cleanup()
   rm -f ../source/app-dev/ledger-api-introduction/proto-docs.rst
   rm -f ../source/LICENSE
   rm -f ../source/NOTICES
-  rm -f ../source/wip
   echo "Done cleanup ... quitting."
   exit 1
 }
@@ -27,7 +26,6 @@ rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR/gen
 
 ln -s ../source $BUILD_DIR
-ln -s ../source-wip $BUILD_DIR/source/wip
 ln -s ../configs $BUILD_DIR
 mkdir $BUILD_DIR/theme
 bazel build //docs:theme

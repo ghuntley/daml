@@ -23,6 +23,7 @@ server. This way you can focus on your distributed-ledger or database of
 choice and reuse our DAML Ledger server and DAML interpreter code for
 implementing the DAML Ledger API.
 
+
 Status and Roadmap
 ******************
 
@@ -58,6 +59,8 @@ different entities, to execute multi-party workflows using the ledger `X`. We
 illustrate this in the following diagram.
 
 .. image:: images/architecture-overview.svg
+
+.. original: https://www.lucidchart.com/invitations/accept/69799877-4e80-444d-96a3-3e90814e94df
 
 We assume that the `X` ledger allows entities to participate in the
 evolution of the ledger via particular nodes. In the remainder of this
@@ -154,7 +157,7 @@ Library Infrastructure Overview
 -------------------------------
 
 We provide the following four Scala libraries to help you implement your
-server and validator. As explained in :ref:`_integration-kit_writing_code`,
+server and validator. As explained in :ref:`integration-kit_writing_code`,
 this guide is best read jointly with the code of our `example ledger
 <https://github.com/digital-asset/daml-on-x-example>`_.
 
@@ -185,6 +188,8 @@ libraries are typically combined to instantiate a DAML Ledger API server
 backed by an `X` ledger.
 
 .. image:: images/server-classes-and-interfaces.svg
+
+.. original: https://www.lucidchart.com/invitations/accept/04239d8e-70ec-4734-b943-9780731fa704
 
 The diagram uses boxes labelled with fully qualified class names to denote class instances.
 It uses solid arrows labelled with fully qualified interface names to denote that an instance
