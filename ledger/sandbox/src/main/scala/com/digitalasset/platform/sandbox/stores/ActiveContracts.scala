@@ -60,7 +60,7 @@ case class ActiveContracts(
       let: Instant,
       transactionId: String,
       workflowId: String,
-      transaction: GenTransaction[Nid, AbsoluteContractId, VersionedValue[AbsoluteContractId]],
+      transaction: GenTransaction.WithTxValue[Nid, AbsoluteContractId],
       explicitDisclosure: Relation[Nid, Ref.Party]): Either[Set[SequencingError], ActiveContracts] =
     acManager.addTransaction(let, transactionId, workflowId, transaction, explicitDisclosure)
 
@@ -104,7 +104,7 @@ class ActiveContractsManager[ACS](
       let: Instant,
       transactionId: String,
       workflowId: String,
-      transaction: GenTransaction[Nid, AbsoluteContractId, VersionedValue[AbsoluteContractId]],
+      transaction: GenTransaction.WithTxValue[Nid, AbsoluteContractId],
       explicitDisclosure: Relation[Nid, Ref.Party]): Either[Set[SequencingError], ACS] = {
     val st =
       transaction
