@@ -59,27 +59,27 @@ resource "google_compute_instance_template" "vsts-agent-windows" {
 Set-StrictMode -Version latest
 $ErrorActionPreference = 'Stop'
 
+# Disable Windows Defender to speed up disk access
+Set-MpPreference -DisableRealtimeMonitoring $true
+
 # Install chocolatey
 iex (New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')
 
-# Install git and bash for azure pipelines
+# Install git, bash and mingw for azure pipelines
 & choco install git.portable --yes 2>&1 | %{ "$_" }
+& choco install mingw --yes 2>&1 | %{ "$_" }
 
-# Add git and bash to the PATH
+# Add tools to the PATH
 $OldPath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
-$NewPath = "$OldPath;C:\tools\git\bin"
+$NewPath = "$OldPath;C:\tools\git\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin"
 Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $NewPath
 
 # Enable long paths
 Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Type DWord -Value 1
 
-# Disable Windows Defender to speed up disk access
-Set-MpPreference -DisableRealtimeMonitoring $true
-
 # Create a temporary and random password for the VSTS user, forget about it once this script has finished running
 $Username = "vssadministrator"
 $Account = "$env:COMPUTERNAME\$Username"
-
 Add-Type -AssemblyName System.Web
 $Password = [System.Web.Security.Membership]::GeneratePassword(24, 0)
 
