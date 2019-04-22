@@ -1,12 +1,4 @@
 steps:
   - checkout: self
-
-  - bash: ci/configure-bazel.sh
-    displayName: 'Configure Bazel'
-    env:
-      IS_FORK: $(System.PullRequest.IsFork)
-      # to upload to the bazel cache
-      GOOGLE_APPLICATION_CREDENTIALS_CONTENT: $(GOOGLE_APPLICATION_CREDENTIALS_CONTENT)
-
-  - powershell: '.\build.ps1 full'
-    displayName: 'Build'
+  - bash: ci/test.sh
+    displayName: 'Debugging'
